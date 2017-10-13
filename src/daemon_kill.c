@@ -24,8 +24,8 @@ void daemon_kill(char *name)
   }
   close(fd);
   printf("I'm killing %d \n", (pid_t)atoi(pid));
+  // Delete the locker file 
   if (stat(fullpath, &st) != -1)
     execl("/usr/bin/rm", "rm -rf", fullpath);
   kill((pid_t)atoi(pid), SIGKILL);
-  // Delete the locker file 
 }

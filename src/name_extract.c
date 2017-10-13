@@ -1,5 +1,27 @@
 #include "header.h"
 
+char *ft_name(char *src)
+{
+  int i;
+  int j;
+  char *dest;
+
+  i = 0;
+  while (src[i])
+    i++;
+  while (src[i] != '/')
+  {
+    i--;
+    j++;
+  }
+  dest = (char*)malloc(sizeof(char) * j + 1);
+  j = 0;
+  while (src[i])
+    dest[j++] = src[++i];
+  dest[j + 1] = '\0';
+  return (dest);
+}
+
 char *ft_filetype(char *src)
 {
   int i, size, flag, j;
@@ -32,26 +54,4 @@ char *ft_filetype(char *src)
   }
   type[j + 1] = '\0';
   return (type);
-}
-
-char *ft_name(char *src)
-{
-  int i;
-  int j;
-  char *dest;
-
-  i = 0;
-  while (src[i])
-    i++;
-  while (src[i] != '/')
-  {
-    i--;
-    j++;
-  }
-  dest = (char*)malloc(sizeof(char) * j + 1);
-  j = 0;
-  while (src[i])
-    dest[j++] = src[++i];
-  dest[j + 1] = '\0';
-  return (dest);
 }

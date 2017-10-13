@@ -13,11 +13,10 @@ int main(int argc, char **argv)
     perror("getcwd() error");
     return (0);
   }
-
-  // Too many arguments
-  if (argc > 3)
+  // Arguments invalid
+  if (argc > 3 || argc == 1)
   {
-    printf("Too many parameters, type --help or -h for help (Please, don't)\n");
+    printf("Wrong number of parameters, type --help or -h for help (Please, don't)\n");
     return (0);
   }
   else if (strcmp(argv[1], "restart") != 0 && strcmp(argv[1], "start") != 0 && strcmp(argv[1], "delete") != 0 && strcmp(argv[1], "kill") != 0 && strcmp(argv[1], "daemon_start") != 0 && strcmp(argv[1], "list") != 0) 
@@ -42,7 +41,6 @@ int main(int argc, char **argv)
     prog_init(cwd, name);
     return (0);
   }
-  
   // Daemon kill
   else if (strcmp(argv[1], "kill") == 0 && argc == 2)
   {
@@ -96,7 +94,6 @@ int main(int argc, char **argv)
     prog_init(binpath, name);
     return (0);
   }
-
   // kill process
   else if (strcmp(argv[1], "delete") == 0 && argc == 3)
   {
@@ -120,7 +117,6 @@ int main(int argc, char **argv)
       return (0);
     }
   }
-
   // Restart  
   else if (strcmp(argv[1], "restart") == 0 && argc == 3)
   {

@@ -6,7 +6,7 @@ static void prog_daemon(const char *lockfile, const char *log_path)
   int i, fd, fd_lock;
   char str[7];
   
-  // already a deamon case
+  // already spawned
   if (getppid() == 1)
     return;
   // First fork
@@ -33,24 +33,18 @@ static void prog_daemon(const char *lockfile, const char *log_path)
   umask(0);
   // Change the working directory
   chdir("/");
-  // run program
-  //system("/c/users/Wadii/Desktop/CPM2/bin/cpm2.exe ./test.exe");
-
   // Closing inherited file descriptors
   for (i = getdtablesize(); i >= 0; i--)
     close(i);
   // Reopening stdin, stdout, stderr
-  // We redirect everything to devnull in order to send them to a harmless location
-  //fd = open("/dev/null", O_RDWR, 0);
+  // We could have redirected everything to devnull in order to send them to a harmless location
+  // Instead we send stds to a file
   fd = open(log_path, O_RDWR | O_CREAT, S_IRWXU);
-  //close(fd);
   if (fd != -1)
   {   
     dup2(fd, STDIN_FILENO);
     dup2(fd, STDOUT_FILENO);
     dup2(fd, STDERR_FILENO);
-   // if (fd > 2)
-   //   close(fd);
   }
   // We need to create open the file in which we'll lock the PID
   if (lockfile && lockfile[0])
@@ -60,12 +54,12 @@ static void prog_daemon(const char *lockfile, const char *log_path)
     wait((int*)3);
     if (fd_lock < 0)
     { 
-      printf("Error with lockfile creation: %s \n", strerror(errno));
+      write(fd, "Error with lockfile creation\n", 29);
       exit(1);
     }
     if (lockf(fd_lock, F_TLOCK, 0) == -1)
     {
-      printf("Error locking the PID file");
+      write(fd, "Error locking the PID file\n", 29);
       exit(1);
     }
     // formatting the PID and storing it

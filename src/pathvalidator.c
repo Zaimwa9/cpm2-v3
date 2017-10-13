@@ -1,5 +1,7 @@
 #include "header.h"
+
 struct      stat st = {0};
+
 int ft_strlen(char *str)
 {
   int i = 0;
@@ -12,14 +14,13 @@ int ft_strlen(char *str)
 int match(regex_t *pexp, char *to_find)
 {
 	regmatch_t matches[MAX_MATCHES];
-
   // rm_so => starting occurence; rm_eo => ending occurence. Both integers
   if (regexec(pexp, to_find, MAX_MATCHES, matches, 0) == 0)
   {
 		if (matches[0].rm_so == 0 && ft_strlen(to_find) == matches[0].rm_eo)
       return (1);
   }
-  return (0);  
+  return (0);
 }
 
 int reg_compile(char *to_find)
