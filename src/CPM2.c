@@ -49,7 +49,6 @@ int main(int argc, char **argv)
       printf("Error 21-632: CPM2 not daemonized yet, please daemon_start first\n");
       return (0);
     }
-    printf("hello");
     daemon_kill(name);
     return (0);
   }
